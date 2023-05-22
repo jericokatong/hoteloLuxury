@@ -1,0 +1,57 @@
+@font-face {
+  font-family: 'Poppins';
+  src: url('../assets/fonts/Poppins/Poppins-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Poppins Medium';
+  src: url('../assets/fonts/Poppins/Poppins-Medium.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Paprika';
+  src: url('../assets/fonts/Paprika/Paprika-Regular.ttf') format('truetype');
+}
+
+.background {
+  height: 130vh;
+  background: url("../assets/img/berandabg.jpg");
+  background-size: cover;
+}
+
+.fontnav {
+  font-family: 'Poppins', sans-serif;
+  color: #B27B0E;
+  font-size: 14px;
+}
+
+.signin.btn {
+  font-family: 'Poppins', sans-serif;
+  background-color: #FFF6C4;
+  color: #B27B0E;
+  border: none;
+}
+
+.signup.btn {
+  background-color: #B27B0E;
+  font-family: 'Poppins', sans-serif;
+  color: #FFF6C4;
+  border: none;
+}
+
+/* untuk beranda */
+.beranda {
+  height: 50%;
+  margin-left: -85px;
+}
+
+.fontber {
+  font-family: 'Paprika', sans-serif;
+  color: #B27B0E;
+}
+
+.fontdesc {
+  font-family: 'Poppins Medium', sans-serif;
+  color: #5C5C5C;
+  font-size: 13px;
+}
