@@ -1,22 +1,20 @@
-@font-face {
-  font-family: 'Poppins';
-  src: url('../assets/fonts/Poppins/Poppins-Regular.ttf') format('truetype');
-}
-
-@font-face {
-  font-family: 'Poppins Medium';
-  src: url('../assets/fonts/Poppins/Poppins-Medium.ttf') format('truetype');
-}
-
-@font-face {
-  font-family: 'Paprika';
-  src: url('../assets/fonts/Paprika/Paprika-Regular.ttf') format('truetype');
-}
-
-.background {
+.mainbg {
   height: 130vh;
   background: url("../assets/img/berandabg.jpg");
   background-size: cover;
+}
+
+.tentangkamibg {
+  height: 4350px;
+  background: url("../assets/img/tentangbg.jpg");
+  background-size: cover;
+}
+
+
+/* navbar style */
+@font-face {
+  font-family: 'Poppins';
+  src: url('../assets/fonts/Poppins/Poppins-Regular.ttf') format('truetype');
 }
 
 .fontnav {
@@ -30,6 +28,7 @@
   background-color: #FFF6C4;
   color: #B27B0E;
   border: none;
+  margin-right: 10px;
 }
 
 .signup.btn {
@@ -37,21 +36,99 @@
   font-family: 'Poppins', sans-serif;
   color: #FFF6C4;
   border: none;
+
 }
 
-/* untuk beranda */
-.beranda {
-  height: 50%;
-  margin-left: -85px;
+.modal-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
 }
 
-.fontber {
-  font-family: 'Paprika', sans-serif;
-  color: #B27B0E;
+.modal-fields input[type="text"],
+.modal-fields input[type="email"],
+.modal-fields input[type="password"] {
+  border: 2px solid #DEA435;
 }
 
-.fontdesc {
+.modal-fields input[type="text"]::placeholder,
+.modal-fields input[type="email"]::placeholder,
+.modal-fields input[type="password"]::placeholder {
+  color: #DEA435;
+}
+
+.modal-fields label {
+  position: absolute;
+  top: -10px;
+  left: 10px;
+  background-color: #fff;
+  padding: 0 5px;
+  color: #DEA435;
+  font-size: 12px;
+}
+
+.modal-fields .mb-3 {
+  position: relative;
+}
+
+.modal-fields .d-flex.justify-content-center {
+  margin-top: 20px;
+}
+
+.modal-fields .d-flex.justify-content-end {
+  margin-top: 40px;
+}
+
+.back-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 20px;
+  height: 20px;
+  background: url('../assets/img/back.png') no-repeat center center;
+  background-size: cover;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.btnpopup.btn {
+  background-color: #B27B0E;
+  font-family: 'Poppins', sans-serif;
+  color: #FFF6C4;
+  border: none;
+  width: 330px;
+  margin-left: -22px;
+  margin-top: 8px;
+  margin-bottom: -8px;
+}
+.modal-image1 {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.teks.btn {
   font-family: 'Poppins Medium', sans-serif;
-  color: #5C5C5C;
-  font-size: 13px;
+  border: none;
+  background-color: transparent;
+  color: #B27B0E;
+  font-size: 14px;
+  padding: 0;
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+.teks1{
+  margin-top: 30px;
+  margin-left: -29px;
+}
+
+.teks.btn:hover {
+  background-color: transparent;
+  color: #B27B0E;
+  outline: none;
 }

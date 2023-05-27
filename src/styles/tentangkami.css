@@ -1,0 +1,76 @@
+@font-face {
+  font-family: 'Poppins';
+  src: url('../assets/fonts/Poppins/Poppins-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Poppins Medium';
+  src: url('../assets/fonts/Poppins/Poppins-SemiBold.ttf') format('truetype');
+}
+
+.tentangkami{
+    margin-top: 110px;
+}
+
+.font1 {
+  font-family: 'Poppins Medium', sans-serif;
+  color: #DEA435;
+}
+
+.font2 {
+  font-family: 'Poppins Medium', sans-serif;
+  color: #5C5C5C;
+}
+
+.font3{
+  font-family: 'Poppins', sans-serif;
+  color: #5C5C5C;
+  font-size: 16px;
+  line-height: 1.6;
+  display: 'block';
+  width: 950px;
+}
+
+.font4 {
+  font-family: 'Poppins Medium', sans-serif;
+  color: #5C5C5C;
+}
+
+.font5 {
+  font-family: 'Poppins Medium', sans-serif;
+  color: #DEA435;
+}
+
+.galeri{
+  -webkit-column-count: 3;
+  -moz-column-count: 3;
+  column-count: 3;
+  -webkit-column-width: 50%;
+  -moz-column-width: 50%;
+  column-width: 50%;
+  padding: 0 12px;
+}
+
+.galeri .pics{
+    -webkit-transition: all 350ms ease;
+    transition: all 350ms ease;
+    cursor: pointer;
+    margin-bottom: 22px;
+}
+
+.galeri .pics.large {
+  -webkit-column-span: 2;
+  -moz-column-span: 2;
+  column-span: 2;
+}
+
+.jeniskamar{
+    margin-top: 300px;
+}
+
+
+.fontfoot{
+  font-family: 'Poppins', sans-serif;
+  color: #5C5C5C;
+  font-size: 16px;
+}

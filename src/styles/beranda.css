@@ -1,0 +1,34 @@
+@font-face {
+  font-family: 'Poppins Medium';
+  src: url('../assets/fonts/Poppins/Poppins-SemiBold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Paprika';
+  src: url('../assets/fonts/Paprika/Paprika-Regular.ttf') format('truetype');
+}
+
+.beranda {
+  height: 490px;
+  margin-left: 50px;
+}
+
+.fontber {
+  font-family: 'Paprika', sans-serif;
+  color: #B27B0E;
+  font-size: 50px;
+}
+
+.fontdesc {
+  font-family: 'Poppins Medium', sans-serif;
+  color: #5C5C5C;
+  font-size: 13px;
+}
+
+.klikdisini.btn {
+  background-color: #B27B0E;
+  font-family: 'Poppins', sans-serif;
+  color: #FFF6C4;
+  border: none;
+  width: 180px;
+}
