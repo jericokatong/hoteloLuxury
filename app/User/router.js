@@ -1,9 +1,9 @@
 var express = require("express");
 var router = express.Router();
 
-const { getUser } = require("./controller");
+const { getPelanggan } = require("./controller");
 
 /* GET home page. */
-router.get("/user", getUser);
+router.get("/pelanggan", getPelanggan);
 
 module.exports = router;
