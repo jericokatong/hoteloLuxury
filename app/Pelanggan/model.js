@@ -7,13 +7,18 @@ const Pelanggan = db.define(
     // Model attributes are defined here
     pelanggan_id: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true,
     },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
     },
     password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    no_hp: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -25,6 +30,8 @@ const Pelanggan = db.define(
   {
     // Other model options go here
     freezeTableName: true,
+    timestamps: false,
+    primaryKey: false,
   }
 );
 
