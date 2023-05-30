@@ -34,7 +34,7 @@ const NavigationBar = () => {
               src="Logo.png"
               width="120"
               height="20"
-              alt="React Bootstrap logo"
+              alt="logo"
             />
           </Navbar.Brand>
         </Container>

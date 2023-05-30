@@ -1,21 +1,17 @@
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
-import NavigationBar from './components/NavigationBar';
-import Beranda from './components/Beranda';
-import TentangKami from './components/TentangKami'
-
-import './styles/style.css';
-
+import Home from './pages/Home'
+import PesanKamar from './pages/PesanKamar';
+import AdminDashboard from './pages/AdminDashboard';
 function App() {
   return (
-    <div>   
-      <div className='mainbg'>
-        <NavigationBar/>
-        <Beranda/>
-      </div>
-      <div className='tentangkamibg'>
-        <TentangKami/>
-      </div>
-    </div>
+    <Router>
+      <Routes>
+        <Route path='/' element={<Home/>} />
+        <Route path='/pesankamar' element={<PesanKamar/>} />
+        <Route path='/admin' element={<AdminDashboard/>} />
+      </Routes>
+    </Router>
   );
 }
 

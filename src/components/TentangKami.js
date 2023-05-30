@@ -6,8 +6,8 @@ import glri3 from '../assets/img/glri3.jpg';
 import glri4 from '../assets/img/glri4.jpg';
 import glri5 from '../assets/img/glri5.jpg';
 import glri6 from '../assets/img/glri6.jpg';
-import Galeri from './Galeri';
 import JenisKamar from './JenisKamar';
+import Fasilitas from './Fasilitas';
 import Peta from './Peta';
 import email from '../assets/img/email.png'
 import map from '../assets/img/map.png'
@@ -62,7 +62,7 @@ const TentangKami = () => {
           </div>
         </div>
       </Container>
-      <Container>
+      <Container className='d-flex justify-content-center'>
         <Row>
           <Col>
             <div className="text-center jeniskamar" id='reservasi'>
@@ -73,7 +73,7 @@ const TentangKami = () => {
               <hr style={{ marginTop: '10px', borderTop: '4px solid #B27B0E', width: '80px', marginLeft: '520px' }} />
             </div>
             <div className="text-center mt-5">
-              <Galeri/>
+              <JenisKamar/>
             </div>
             <div className='text-center mt-5'>
               <h1 className='pb-5'>
@@ -81,7 +81,7 @@ const TentangKami = () => {
               </h1>
               <hr style={{marginTop:'-45px', marginBottom:'60px', borderTop: '4px solid #B27B0E', width: '80px', marginLeft: '520px' }} />
               <div>
-                <JenisKamar/>
+                <Fasilitas/>
               </div>
             </div>
           </Col>
