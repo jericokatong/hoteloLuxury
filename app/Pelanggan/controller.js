@@ -131,4 +131,42 @@ const token = async (req, res, next) => {
   }
 };
 
-module.exports = { getPelanggan, RegisterPelanggan, LoginPelanggan, token };
+const Logout = async (req, res, next) => {
+  try {
+    const refreshToken = req.cookies.refreshToken;
+    if (!refreshToken) return res.status(400).json({ msg: "harap login" });
+
+    const pelanggan = await Pelanggan.findOne({
+      where: {
+        refreshToken,
+      },
+    });
+    if (!pelanggan) return res.sendStatus(204);
+
+    const pelanggan_id = pelanggan.pelanggan_id;
+
+    await Pelanggan.update(
+      { refreshToken: null },
+      {
+        where: {
+          pelanggan_id,
+        },
+      }
+    );
+
+    res.clearCookie("refreshToken");
+    return res.status(200).json({ msg: "Berhasil melakukan logout" });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// const editPelanggan = async (req, res, next) => {
+//   try {
+
+//   } catch (error) {
+//     console.log(error)
+//   }
+// }
+
+module.exports = { getPelanggan, RegisterPelanggan, LoginPelanggan, token, Logout };

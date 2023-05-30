@@ -22,6 +22,12 @@ const Pelanggan = db.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    image_pelanggan: {
+      type: DataTypes.STRING,
+    },
+    url_image_pelanggan: {
+      type: DataTypes.STRING,
+    },
     refreshToken: {
       type: DataTypes.TEXT,
       allowNull: true,
