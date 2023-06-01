@@ -6,6 +6,7 @@ import popup from '../assets/img/popup.jpg';
 const NavigationBar = () => {
   const [showSignIn, setShowSignIn] = useState(false);
   const [showSignUp, setShowSignUp] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
 
   const handleShowSignIn = () => {
     setShowSignUp(false);
@@ -25,6 +26,14 @@ const NavigationBar = () => {
     setShowSignUp(false);
   };
 
+  const handleShowProfile = () => {
+    setShowProfile(true);
+  };
+
+  const handleCloseProfile = () => {
+    setShowProfile(false);
+  };
+
   return (
     <div>
       <Navbar>
@@ -42,7 +51,7 @@ const NavigationBar = () => {
           <NavLink href="/">Beranda</NavLink>
           <NavLink href="#tentangkami">Tentang Kami</NavLink>
           <NavLink href="#reservasi">Reservasi</NavLink>
-          <NavLink href="/akunsaya">Akun Saya</NavLink>
+          <NavLink onClick={handleShowProfile}>Akun Saya</NavLink>
         </Container>
         <Container className="d-flex justify-content-center">
           <Button variant="warning" className="signin" size="sm" onClick={handleShowSignIn}>
@@ -131,6 +140,34 @@ const NavigationBar = () => {
               </div>
             </Col>
           </Row>
+        </Modal.Body>
+      </Modal>
+      <Modal show={showProfile} onHide={handleCloseProfile} size="lg" centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Biodata Pengguna</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="p-4" style={{backgroundColor:'#FBEEA8', borderRadius:'10px'}} > 
+            <div className="mb-3">
+              <label htmlFor="nama">Nama</label>
+              <input type="text" className="form-control" id="nama" placeholder="Masukkan Nama" style={{ borderColor: "#B27B0E",backgroundColor:'#FBEEA8' }} />
+            </div>
+            <div className="mb-3">
+              <label htmlFor="nohp">No HP</label>
+              <input type="text" className="form-control" id="nohp" placeholder="Masukkan No HP" style={{ borderColor: "#B27B0E",backgroundColor:'#FBEEA8' }} /> 
+            </div>
+            <div className="mb-3">
+              <label htmlFor="email">Email</label>
+              <input type="email" className="form-control" id="email" placeholder="Masukkan Email" style={{ borderColor: "#B27B0E",backgroundColor:'#FBEEA8' }} />
+            </div>
+            <div className="mb-3">
+              <label htmlFor="profil">Edit Foto Profil</label>
+              <input type="file" className="form-control" id="profil" style={{ borderColor: "#B27B0E",backgroundColor:'#FBEEA8' }} /> 
+            </div>
+            <Button variant="warning" onClick={handleCloseProfile}>
+              Simpan
+            </Button>
+          </div>
         </Modal.Body>
       </Modal>
     </div>

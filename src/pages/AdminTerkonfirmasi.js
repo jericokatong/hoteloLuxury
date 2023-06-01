@@ -1,17 +1,20 @@
 
 import NavigationAdmin from '../components/NavigationAdmin';
-import Dashboard from './Dashboard';
+import Terkonfirmasi from './Terkonfirmasi';
+
 import '../styles/style.css';
 
-const AdminDashboard = () => {
+const AdminTerkonfirmasi = () => {
   return (
     <div className='d-flex bg'>
       <div>
         <NavigationAdmin/>
       </div>
-      <Dashboard/>
+      <div>
+        <Terkonfirmasi/>
+      </div>
     </div>
   )
 }
 
-export default AdminDashboard;
+export default AdminTerkonfirmasi;

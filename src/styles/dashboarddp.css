@@ -1,0 +1,84 @@
+.dash {
+  margin-left: -1042px;
+  margin-top: 0;
+}
+
+.tabel {
+  width: 1047px;
+  margin-left: 44px;
+  margin-top: 20px;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('../assets/fonts/Poppins/Poppins-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Poppins Semi Bold';
+  src: url('../assets/fonts/Poppins/Poppins-SemiBold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Poppins Medium';
+  src: url('../assets/fonts/Poppins/Poppins-Medium.ttf') format('truetype');
+}
+
+.headerStyle {
+  font-family: 'Poppins Medium', sans-serif;
+  height: 63px;
+  width: 1158px;
+  background-color: #F4F4F4;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  color: #5C5C5C;
+}
+
+.add.btn {
+  background-color: #B27B0E;
+  font-family: 'Poppins', sans-serif;
+  color: #FFF6C4;
+  border: none;
+}
+
+.head {
+  background-color: #B27B0E ;
+  color: #F9F4DB ;
+  font-family: 'Poppins Semi Bold', sans-serif;
+}
+
+.tabel tbody tr .body {
+  background-color: #F9F4DB !important;
+  color: #B27B0E !important;
+  font-family: 'Poppins', sans-serif;
+}
+
+.tabel tbody tr .no {
+  background-color: #F9F4DB !important;
+  color: #5C5C5C;
+  font-family: 'Poppins', sans-serif;
+}
+
+.edit.btn {
+  background-color: #B27B0E;
+  font-family: 'Poppins', sans-serif;
+  color: #FFF6C4;
+  border: none;
+}
+
+.delete.btn {
+  background-color: #FFF6C4;
+  font-family: 'Poppins', sans-serif;
+  color: #B27B0E;
+  border-width: 1px ;
+  border-color: #B27B0E;
+}
+
+.tabel tbody tr td {
+  height: 70px;
+  text-align: center;
+}
+.tabel thead tr th {
+  text-align: center;
+}

@@ -1,17 +1,20 @@
 
 import NavigationAdmin from '../components/NavigationAdmin';
-import Dashboard from './Dashboard';
+import EditKamar from './EditKamar';
+
 import '../styles/style.css';
 
-const AdminDashboard = () => {
+const AdminEditKamar = () => {
   return (
     <div className='d-flex bg'>
       <div>
         <NavigationAdmin/>
       </div>
-      <Dashboard/>
+      <div>
+        <EditKamar/>
+      </div>
     </div>
   )
 }
 
-export default AdminDashboard;
+export default AdminEditKamar;

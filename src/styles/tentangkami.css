@@ -80,7 +80,8 @@
   font-family: 'Poppins', sans-serif;
   color: #FFF6C4;
   border: none;
-  width: 90px;
+  width: 250px;
+  height: 30px;
   padding: 2px 5px;
   font-size: 10px;
 }

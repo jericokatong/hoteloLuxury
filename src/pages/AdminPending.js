@@ -1,17 +1,20 @@
 
 import NavigationAdmin from '../components/NavigationAdmin';
-import Dashboard from './Dashboard';
+import Pending from './Pending';
+
 import '../styles/style.css';
 
-const AdminDashboard = () => {
+const AdminPending = () => {
   return (
     <div className='d-flex bg'>
       <div>
         <NavigationAdmin/>
       </div>
-      <Dashboard/>
+      <div>
+        <Pending/>
+      </div>
     </div>
   )
 }
 
-export default AdminDashboard;
+export default AdminPending;

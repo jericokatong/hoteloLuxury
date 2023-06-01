@@ -5,7 +5,7 @@ import TentangKami from '../components/TentangKami'
 
 import '../styles/style.css';
 
-function App() {
+const Home = () => {
   return (
     <div>
       <div className='mainbg'>
@@ -19,4 +19,4 @@ function App() {
   );
 }
 
-export default App;
+export default Home;

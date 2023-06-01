@@ -28,7 +28,6 @@ const JenisKamar = () => {
               <Card.Text className='mt-2' style={{fontSize:'13px'}}>{cardText}</Card.Text>
               <div className="d-flex justify-content-center mb-2 mt-2">
                 <Button onClick={() => navigate('/pesankamar')} variant="warning" size="sm" className="ms-2 booknow">Book Sekarang</Button>{' '}
-                <Button href="#reservasi"  variant="warning" size="sm" className="ms-3 info">Info Selengkapnya</Button>
               </div>
             </Card.Body>
           </Card>

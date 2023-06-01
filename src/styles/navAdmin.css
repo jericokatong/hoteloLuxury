@@ -1,94 +1,18 @@
-.sidebar {
-  display: flex;
-  flex-direction: column;
-  background-color: #f8f9fa;
-  min-height: 100vh;
-  width: 250px;
-  transition: width 0.3s ease;
+.ads{
+    width: 1250px;
 }
 
-.sidebar-open {
-  width: 80px;
+.bg-color {
+  background-color: #e2ab46;
+  border-radius: 6px;
 }
 
-.sidebar .fontnav {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding-top: 20px;
+@font-face {
+  font-family: 'Poppins Medium';
+  src: url('../assets/fonts/Poppins/Poppins-Medium.ttf') format('truetype');
 }
 
-.sidebar .fontnav.sidebar-open {
-  align-items: center;
-  padding-top: 0;
-}
-
-.sidebar .fontnav a {
-  padding: 10px;
-  color: #b27b0e;
-  text-decoration: none;
-  transition: background-color 0.3s ease;
-}
-
-.sidebar .fontnav a:hover {
-  background-color: #d7d7d7;
-}
-
-.sidebar .signin.btn,
-.sidebar .signup.btn {
-  margin-top: 20px;
-  margin-bottom: 10px;
-  transition: margin 0.3s ease;
-}
-
-.sidebar-open .signin.btn,
-.sidebar-open .signup.btn {
-  margin-top: 0;
-  margin-bottom: 0;
-}
-
-.sidebar .modal-image-container {
-  position: relative;
-}
-
-.sidebar .back-button {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  width: 20px;
-  height: 20px;
-  background: url('../assets/img/back.png') no-repeat center center;
-  background-size: cover;
-  cursor: pointer;
-  z-index: 2;
-}
-
-.sidebar .modal-image {
-  display: none;
-}
-
-.sidebar-open .modal-image {
-  display: block;
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  margin: 20px auto;
-}
-
-.sidebar-open .modal-fields {
-  display: none;
-}
-
-.sidebar .btnpopup.btn {
-  width: 80px;
-  margin: 0 auto;
-  margin-top: 20px;
-  margin-bottom: 10px;
-  transition: width 0.3s ease, margin 0.3s ease;
-}
-
-.sidebar-open .btnpopup.btn {
-  width: 100%;
-  margin-top: 0;
-  margin-bottom: 0;
+.nav-link {
+  font-family: 'Poppins Medium', sans-serif;
+  font-size: 14px;
 }

@@ -1,17 +1,20 @@
 
 import NavigationAdmin from '../components/NavigationAdmin';
-import Dashboard from './Dashboard';
+import Baru from './Baru';
+
 import '../styles/style.css';
 
-const AdminDashboard = () => {
+const AdminBaru = () => {
   return (
     <div className='d-flex bg'>
       <div>
         <NavigationAdmin/>
       </div>
-      <Dashboard/>
+      <div>
+        <Baru/>
+      </div>
     </div>
   )
 }
 
-export default AdminDashboard;
+export default AdminBaru;
