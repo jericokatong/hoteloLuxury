@@ -1,12 +1,15 @@
-const Pelanggan = require("./model");
+const Pelanggan = require("./model.js");
+const Admin = require("../Admin/model.js");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const path = require("path");
+const fs = require("fs");
 const { accessTokenSecret, refreshTokenSecret } = require("../../config");
 
 const getPelanggan = async (req, res, next) => {
   try {
     const response = await Pelanggan.findAll({
-      attributes: ["pelanggan_id", "email", "password", "no_hp", "refreshToken"],
+      attributes: ["pelanggan_id", "email", "no_hp", "image_pelanggan", "url_image_pelanggan"],
     });
     res.json({ data: response });
   } catch (error) {
@@ -14,38 +17,74 @@ const getPelanggan = async (req, res, next) => {
   }
 };
 
+const getPelangganByEmail = async (req, res, next) => {
+  try {
+    const response = await Pelanggan.findOne({
+      where: {
+        email: req.params.email,
+      },
+      attributes: ["pelanggan_id", "email", "no_hp", "image_pelanggan", "url_image_pelanggan"],
+    });
+
+    res.status(200).json({ data: response });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const RegisterPelanggan = async (req, res, next) => {
   try {
-    const { email, no_hp, password } = req.body;
+    const email = req.body.email;
+    const no_hp = req.body.no_hp;
+    const password = req.body.password;
 
-    const response = await Pelanggan.findOne({
+    const responsePelanggan = await Pelanggan.findOne({
       where: {
         email,
       },
       attributes: ["pelanggan_id", "email", "password", "no_hp", "refreshToken"],
     });
 
-    if (response) return res.status(400).json({ msg: "email sudah tersedia, mohon gunakan email lain!!" });
+    const responseAdmin = await Admin.findOne({
+      where: {
+        email,
+      },
+    });
+
+    if (responsePelanggan || responseAdmin) return res.status(400).json({ msg: "email sudah tersedia, mohon gunakan email lain!!" });
 
     const salt = await bcrypt.genSalt();
     const hashingPassword = await bcrypt.hash(password, salt);
 
     if (!hashingPassword) res.status(400).json({ msg: "tidak dapat melakukan hashing" });
 
-    Pelanggan.create(
-      {
-        email: email,
-        no_hp: no_hp,
-        password: hashingPassword,
-      }
-      // {
-      //   fields: ["email", "no_hp", "password"],
-      // }
-    );
+    if (req.file === undefined) return res.status(400).json({ msg: "No File Uploaded" });
+
+    const file = req.file;
+    const fileSize = file.size;
+    const ext = path.extname(file.originalname);
+    const fileName = file.filename + ext;
+
+    const url = `${req.protocol}://${req.get("host")}/images/${fileName}`;
+    const allowedType = [".png", ".jpg", ".jpeg"];
+
+    if (!allowedType.includes(ext.toLowerCase())) return res.status(422).json({ msg: "Invalid Images" });
+
+    if (fileSize > 5000000) return res.status(422).json({ msg: "Image must be less than 5MB" });
+
+    fs.renameSync(file.path, `${file.path}${ext}`);
+
+    Pelanggan.create({
+      email: email,
+      no_hp: no_hp,
+      password: hashingPassword,
+      image_pelanggan: fileName,
+      url_image_pelanggan: url,
+    });
 
     res.status(200).json({ msg: "Berhasil melakukan registrasi" });
   } catch (error) {
-    console.log(error.message);
+    console.log(error);
   }
 };
 
@@ -161,12 +200,86 @@ const Logout = async (req, res, next) => {
   }
 };
 
-// const editPelanggan = async (req, res, next) => {
-//   try {
+const editPelanggan = async (req, res, next) => {
+  try {
+    const pelanggan = await Pelanggan.findOne({
+      where: {
+        email: req.email,
+      },
+    });
+    const no_hp = req.body.no_hp;
 
-//   } catch (error) {
-//     console.log(error)
-//   }
-// }
+    let fileName = "";
 
-module.exports = { getPelanggan, RegisterPelanggan, LoginPelanggan, token, Logout };
+    if (req.file == undefined) {
+      fileName = pelanggan.image_pelanggan;
+    } else {
+      const file = req.file;
+      console.log("inir req file", req.file);
+      const fileSize = file.size;
+      const ext = path.extname(file.originalname);
+
+      fileName = file.filename + ext;
+
+      const allowedType = [".png", ".jpg", ".jpeg"];
+
+      if (!allowedType.includes(ext.toLowerCase())) return res.status(422).json({ msg: "Invalid Images" });
+
+      if (fileSize > 5000000) return res.status(422).json({ msg: "Image must be less than 5MB" });
+
+      if (pelanggan.image_pelanggan) {
+        const filePath = `./public/images/${pelanggan.image_pelanggan}`;
+        fs.unlinkSync(filePath);
+
+        fs.renameSync(file.path, `${file.path}${ext}`);
+      }
+      fs.renameSync(file.path, `${file.path}${ext}`);
+    }
+
+    const url = `${req.protocol}://${req.get("host")}/images/${fileName}`;
+
+    await Pelanggan.update(
+      {
+        no_hp,
+        image_pelanggan: fileName,
+        url_image_pelanggan: url,
+      },
+      {
+        where: {
+          email: req.email,
+        },
+      }
+    );
+
+    res.status(200).json({ msg: "Profil Updated Successfuly" });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const deletePelanggan = async (req, res, next) => {
+  try {
+    const pelanggan = await Pelanggan.findOne({
+      where: {
+        pelanggan_id: req.params.pelanggan_id,
+      },
+    });
+
+    if (!pelanggan) return res.status(404).json({ msg: "Data not found" });
+
+    const filePath = `./public/images/${pelanggan.image_pelanggan}`;
+    fs.unlinkSync(filePath);
+
+    await Pelanggan.destroy({
+      where: {
+        pelanggan_id: req.params.pelanggan_id,
+      },
+    });
+
+    res.status(200).json({ msg: "Berhasil hapus data pengguna" });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+module.exports = { getPelanggan, RegisterPelanggan, LoginPelanggan, token, Logout, getPelangganByEmail, editPelanggan, deletePelanggan };

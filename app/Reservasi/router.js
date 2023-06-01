@@ -5,7 +5,7 @@ const { createReservasi, getAllInformasiReservasi, getInformasiReservasiByUser }
 const VerifyToken = require("../../middleware/VerifyToken.js");
 
 router.post("/reservasi/:kamar_id", VerifyToken, createReservasi);
-router.get("/reservasi", getAllInformasiReservasi);
-router.get("/reservasi/:pelanggan_id", getInformasiReservasiByUser);
+router.get("/reservasi", VerifyToken, getAllInformasiReservasi);
+router.get("/reservasi/:pelanggan_id", VerifyToken, getInformasiReservasiByUser);
 
 module.exports = router;

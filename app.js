@@ -9,6 +9,7 @@ const multer = require("multer");
 var pelangganRouter = require("./app/Pelanggan/router.js");
 var kamarRouter = require("./app/Kamar/router.js");
 var reservasiRouter = require("./app/Reservasi/router.js");
+var adminRouter = require("./app/Admin/router.js");
 
 var app = express();
 
@@ -26,6 +27,7 @@ app.use(express.static("public"));
 app.use("/", pelangganRouter);
 app.use("/", kamarRouter);
 app.use("/", reservasiRouter);
+app.use("/", adminRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

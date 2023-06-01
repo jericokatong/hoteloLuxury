@@ -1,6 +1,5 @@
 const Kamar = require("./model.js");
 const path = require("path");
-const crypto = require("crypto");
 const fs = require("fs");
 
 const getKamar = async (req, res, next) => {
@@ -37,18 +36,12 @@ const createKamar = async (req, res, next) => {
     const harga_per_malam = req.body.harga_per_malam;
     const jumlah_kamar = req.body.jumlah_kamar;
 
-    if (req.file === null) return res.status(400).json({ msg: "No File Uploaded" });
+    if (req.file === undefined) return res.status(400).json({ msg: "No File Uploaded" });
 
     const file = req.file;
     const fileSize = file.size;
     const ext = path.extname(file.originalname);
-
-    // Baca data file secara synchronous menggunakan fs.readFileSync
-    const filePath = file.path;
     const fileName = file.filename + ext;
-    console.log("ini file", fileName);
-
-    console.log("ini ext", ext);
 
     const url = `${req.protocol}://${req.get("host")}/images/${fileName}`;
     const allowedType = [".png", ".jpg", ".jpeg"];
