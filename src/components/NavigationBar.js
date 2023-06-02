@@ -3,20 +3,46 @@ import React, { useState } from "react";
 import "../styles/style.css";
 import popup from "../assets/img/popup.jpg";
 import axios from "axios";
-// import { useNavigate } from "react-router-dom";
+import jwt_decode from "jwt-decode";
+
 import { useNavigate } from "react-router-dom";
 import defaultImage from "../assets/img/avatar.png";
+import { useEffect } from "react";
 
 const NavigationBar = () => {
   const [showSignIn, setShowSignIn] = useState(false);
   const [showSignUp, setShowSignUp] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
-  // const navigate = useNavigate();
   const navigate = useNavigate();
+
+  const [isLogin, setIsLogin] = useState(false);
 
   const [email, setEmail] = useState("");
   const [noHp, setNoHp] = useState("");
   const [password, setPassword] = useState("");
+
+  const [token, setToken] = useState("");
+  const [expire, setExpire] = useState("");
+
+  // useEffect(() => {
+  //   if (isLogin) {
+  //     refreshToken();
+  //   }
+  // });
+
+  // const refreshToken = async () => {
+  //   try {
+  //     const response = await axios.get("http://localhost:5000/token");
+
+  //     setToken(response.data.accessToken);
+
+  //     const decoded = jwt_decode(response.data.accessToken);
+  //     setEmail(decoded.email);
+  //     setExpire(decoded.exp);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   const register = async (e) => {
     e.preventDefault();
@@ -36,8 +62,49 @@ const NavigationBar = () => {
           "Content-type": "multipart/form-data",
         },
       });
+      setEmail("");
+      setNoHp("");
+      setPassword("");
       navigate("/");
       handleCloseSignUp();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const login = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post("http://localhost:5000/login", {
+        email,
+        password,
+      });
+      console.log("ini response login", response.data.accessToken);
+      const decoded = jwt_decode(response.data.accessToken);
+      setEmail(decoded.email);
+      setExpire(decoded.exp);
+
+      setIsLogin(true);
+      navigate("/");
+      handleCloseSignIn();
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const logout = async (e) => {
+    e.preventDefault();
+
+    try {
+      axios.delete("http://localhost:5000/logout");
+
+      setEmail("");
+      setNoHp("");
+      setPassword("");
+      setIsLogin(false);
+
+      navigate("/");
+      handleCloseSignIn();
     } catch (error) {
       console.log(error);
     }
@@ -83,14 +150,25 @@ const NavigationBar = () => {
           <NavLink href="#reservasi">Reservasi</NavLink>
           <NavLink onClick={handleShowProfile}>Akun Saya</NavLink>
         </Container>
-        <Container className="d-flex justify-content-center">
-          <Button variant="warning" className="signin" size="sm" onClick={handleShowSignIn}>
-            Sign In
-          </Button>{" "}
-          <Button variant="warning" size="sm" className="ms-3 signup" onClick={handleShowSignUp}>
-            Sign Up
-          </Button>{" "}
-        </Container>
+        {isLogin && (
+          <Container className="d-flex justify-content-center">
+            <div>hello {email && email}</div>
+            <Button variant="danger" size="sm" className="ms-3 signup" onClick={logout}>
+              Logout
+            </Button>{" "}
+          </Container>
+        )}
+
+        {!isLogin && (
+          <Container className="d-flex justify-content-center">
+            <Button variant="warning" className="signin" size="sm" onClick={handleShowSignIn}>
+              Sign In
+            </Button>{" "}
+            <Button variant="warning" size="sm" className="ms-3 signup" onClick={handleShowSignUp}>
+              Sign Up
+            </Button>{" "}
+          </Container>
+        )}
       </Navbar>
 
       <Modal show={showSignIn} onHide={handleCloseSignIn} size="lg" centered>
@@ -98,7 +176,7 @@ const NavigationBar = () => {
           <Row>
             <Col md={6} className="d-flex justify-content-center align-items-center">
               <div className="modal-fields text-center ms-5 mt-5">
-                <form>
+                <form onSubmit={login}>
                   <div className="mb-3 text-left">
                     <label htmlFor="email">Email</label>
                     <input type="email" className="form-control" id="email" style={{ width: "330px", marginLeft: "-22px" }} placeholder="Masukkan Email" value={email} onChange={(e) => setEmail(e.target.value)} />
@@ -116,7 +194,7 @@ const NavigationBar = () => {
                     />
                   </div>
                   <div className="d-flex justify-content-center">
-                    <Button variant="warning" className="btnpopup" size="sm" onClick={handleCloseSignIn}>
+                    <Button variant="warning" className="btnpopup" size="sm" type="submit">
                       Sign In
                     </Button>
                   </div>
