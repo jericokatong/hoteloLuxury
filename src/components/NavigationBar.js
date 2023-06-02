@@ -1,12 +1,47 @@
 import { Navbar, Container, NavLink, Button, Modal, Row, Col } from "react-bootstrap";
 import React, { useState } from "react";
-import '../styles/style.css';
-import popup from '../assets/img/popup.jpg';
+import "../styles/style.css";
+import popup from "../assets/img/popup.jpg";
+import axios from "axios";
+// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import defaultImage from "../assets/img/avatar.png";
 
 const NavigationBar = () => {
   const [showSignIn, setShowSignIn] = useState(false);
   const [showSignUp, setShowSignUp] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
+  // const navigate = useNavigate();
+  const navigate = useNavigate();
+
+  const [email, setEmail] = useState("");
+  const [noHp, setNoHp] = useState("");
+  const [password, setPassword] = useState("");
+
+  const register = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("email", email);
+    formData.append("no_hp", noHp);
+    formData.append("password", password);
+
+    try {
+      const response = await fetch(defaultImage);
+      const blob = await response.blob();
+
+      formData.append("file", blob, "default.png");
+
+      await axios.post("http://localhost:5000/register", formData, {
+        headers: {
+          "Content-type": "multipart/form-data",
+        },
+      });
+      navigate("/");
+      handleCloseSignUp();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleShowSignIn = () => {
     setShowSignUp(false);
@@ -18,7 +53,7 @@ const NavigationBar = () => {
   };
 
   const handleShowSignUp = () => {
-    setShowSignIn(false)
+    setShowSignIn(false);
     setShowSignUp(true);
   };
 
@@ -39,12 +74,7 @@ const NavigationBar = () => {
       <Navbar>
         <Container className="d-flex justify-content-center">
           <Navbar.Brand href="/">
-            <img
-              src="Logo.png"
-              width="120"
-              height="20"
-              alt="logo"
-            />
+            <img src="Logo.png" width="120" height="20" alt="logo" />
           </Navbar.Brand>
         </Container>
         <Container className="fontnav">
@@ -71,11 +101,19 @@ const NavigationBar = () => {
                 <form>
                   <div className="mb-3 text-left">
                     <label htmlFor="email">Email</label>
-                    <input type="email" className="form-control" id="email" style={{ width: "330px", marginLeft:'-22px'}} placeholder="Masukkan Email" />
+                    <input type="email" className="form-control" id="email" style={{ width: "330px", marginLeft: "-22px" }} placeholder="Masukkan Email" value={email} onChange={(e) => setEmail(e.target.value)} />
                   </div>
                   <div className="mb-3 text-left">
                     <label htmlFor="password">Password</label>
-                    <input type="password" className="form-control" id="password" style={{ width: "330px", marginLeft:'-22px', marginTop:'40px' }} placeholder="Masukkan Password" />
+                    <input
+                      type="password"
+                      className="form-control"
+                      id="password"
+                      style={{ width: "330px", marginLeft: "-22px", marginTop: "40px" }}
+                      placeholder="Masukkan Password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
                   </div>
                   <div className="d-flex justify-content-center">
                     <Button variant="warning" className="btnpopup" size="sm" onClick={handleCloseSignIn}>
@@ -84,8 +122,10 @@ const NavigationBar = () => {
                   </div>
                   <div>
                     <h6 className="teks1">
-                        <span>Not a member?</span>
-                        <Button variant="warning" className="teks" onClick={handleShowSignUp}>Sign Up</Button>
+                      <span>Not a member?</span>
+                      <Button variant="warning" className="teks" onClick={handleShowSignUp}>
+                        Sign Up
+                      </Button>
                     </h6>
                   </div>
                 </form>
@@ -93,7 +133,7 @@ const NavigationBar = () => {
             </Col>
             <Col md={6}>
               <div className="modal-image-container">
-                <div className="back-button" onClick={handleCloseSignIn}/>
+                <div className="back-button" onClick={handleCloseSignIn} />
                 <img src={popup} alt="Sign Up" className="modal-image1" />
               </div>
             </Col>
@@ -105,38 +145,47 @@ const NavigationBar = () => {
           <Row>
             <Col md={6}>
               <div className="modal-image-container">
-                <div className="back-button" onClick={handleCloseSignUp}/>
+                <div className="back-button" onClick={handleCloseSignUp} />
                 <img src={popup} alt="Sign Up" className="modal-image" />
               </div>
             </Col>
             <Col md={6} className="d-flex justify-content-center align-items-center">
-              <div  className="modal-fields text-center">
-                <form>
+              <div className="modal-fields text-center">
+                <form onSubmit={register}>
                   <div className="mb-3 text-left">
                     <label htmlFor="email">Email</label>
-                    <input type="email" className="form-control" id="email" style={{ width: "330px", marginLeft:'-22px', marginTop:'35px'}} placeholder="Masukkan Email" />
+                    <input type="email" className="form-control" id="email" style={{ width: "330px", marginLeft: "-22px", marginTop: "35px" }} placeholder="Masukkan Email" value={email} onChange={(e) => setEmail(e.target.value)} />
                   </div>
                   <div className="mb-3 text-left">
                     <label htmlFor="phone">Nomor HP</label>
-                    <input type="text" className="form-control" id="phone" style={{ width: "330px", marginLeft:'-22px', marginTop:'30px'}} placeholder="Masukkan Nomor HP" />
+                    <input type="text" className="form-control" id="phone" style={{ width: "330px", marginLeft: "-22px", marginTop: "30px" }} placeholder="Masukkan Nomor HP" value={noHp} onChange={(e) => setNoHp(e.target.value)} />
                   </div>
                   <div className="mb-3 text-left">
                     <label htmlFor="password">Password</label>
-                    <input type="password" className="form-control" id="password" style={{ width: "330px", marginLeft:'-22px', marginTop:'30px' }} placeholder="Masukkan Password" />
+                    <input
+                      type="password"
+                      className="form-control"
+                      id="password"
+                      style={{ width: "330px", marginLeft: "-22px", marginTop: "30px" }}
+                      placeholder="Masukkan Password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
                   </div>
                   <div className="d-flex justify-content-center">
-                    <Button variant="warning" className="btnpopup" size="sm" onClick={handleCloseSignUp}>
+                    <Button variant="warning" className="btnpopup" size="sm" type="submit">
                       Sign Up
                     </Button>
                   </div>
                   <div>
                     <h6 className="teks1 mb-4">
-                        <span>Already a member?</span>
-                        <Button variant="warning" className="teks" onClick={handleShowSignIn}>Sign In</Button>
+                      <span>Already a member?</span>
+                      <Button variant="warning" className="teks" onClick={handleShowSignIn}>
+                        Sign In
+                      </Button>
                     </h6>
                   </div>
                 </form>
-                
               </div>
             </Col>
           </Row>
@@ -147,22 +196,22 @@ const NavigationBar = () => {
           <Modal.Title>Biodata Pengguna</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <div className="p-4" style={{backgroundColor:'#FBEEA8', borderRadius:'10px'}} > 
+          <div className="p-4" style={{ backgroundColor: "#FBEEA8", borderRadius: "10px" }}>
             <div className="mb-3">
               <label htmlFor="nama">Nama</label>
-              <input type="text" className="form-control" id="nama" placeholder="Masukkan Nama" style={{ borderColor: "#B27B0E",backgroundColor:'#FBEEA8' }} />
+              <input type="text" className="form-control" id="nama" placeholder="Masukkan Nama" style={{ borderColor: "#B27B0E", backgroundColor: "#FBEEA8" }} />
             </div>
             <div className="mb-3">
               <label htmlFor="nohp">No HP</label>
-              <input type="text" className="form-control" id="nohp" placeholder="Masukkan No HP" style={{ borderColor: "#B27B0E",backgroundColor:'#FBEEA8' }} /> 
+              <input type="text" className="form-control" id="nohp" placeholder="Masukkan No HP" style={{ borderColor: "#B27B0E", backgroundColor: "#FBEEA8" }} />
             </div>
             <div className="mb-3">
               <label htmlFor="email">Email</label>
-              <input type="email" className="form-control" id="email" placeholder="Masukkan Email" style={{ borderColor: "#B27B0E",backgroundColor:'#FBEEA8' }} />
+              <input type="email" className="form-control" id="email" placeholder="Masukkan Email" style={{ borderColor: "#B27B0E", backgroundColor: "#FBEEA8" }} />
             </div>
             <div className="mb-3">
               <label htmlFor="profil">Edit Foto Profil</label>
-              <input type="file" className="form-control" id="profil" style={{ borderColor: "#B27B0E",backgroundColor:'#FBEEA8' }} /> 
+              <input type="file" className="form-control" id="profil" style={{ borderColor: "#B27B0E", backgroundColor: "#FBEEA8" }} />
             </div>
             <Button variant="warning" onClick={handleCloseProfile}>
               Simpan
