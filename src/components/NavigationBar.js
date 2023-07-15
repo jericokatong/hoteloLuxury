@@ -1,141 +1,35 @@
 import { Navbar, Container, NavLink, Button, Modal, Row, Col } from "react-bootstrap";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/style.css";
 import popup from "../assets/img/popup.jpg";
-import axios from "axios";
-import jwt_decode from "jwt-decode";
 
-import { useNavigate } from "react-router-dom";
-import defaultImage from "../assets/img/avatar.png";
-import { useEffect } from "react";
-
-const NavigationBar = () => {
-  const [showSignIn, setShowSignIn] = useState(false);
-  const [showSignUp, setShowSignUp] = useState(false);
-  const [showProfile, setShowProfile] = useState(false);
-  const navigate = useNavigate();
-
-  const [isLogin, setIsLogin] = useState(false);
-
-  const [email, setEmail] = useState("");
-  const [noHp, setNoHp] = useState("");
-  const [password, setPassword] = useState("");
-
-  const [token, setToken] = useState("");
-  const [expire, setExpire] = useState("");
-
+const NavigationBar = ({
+  email,
+  setEmail,
+  noHp,
+  setNoHp,
+  password,
+  setPassword,
+  isLogin,
+  showSignIn,
+  showSignUp,
+  showProfile,
+  setShowProfile,
+  navigate,
+  register,
+  login,
+  logout,
+  handleShowSignIn,
+  handleCloseSignIn,
+  handleShowSignUp,
+  handleCloseSignUp,
+  handleShowProfile,
+  handleCloseProfile,
+  notHome,
+}) => {
   // useEffect(() => {
-  //   if (isLogin) {
-  //     refreshToken();
-  //   }
-  // });
-
-  // const refreshToken = async () => {
-  //   try {
-  //     const response = await axios.get("http://localhost:5000/token");
-
-  //     setToken(response.data.accessToken);
-
-  //     const decoded = jwt_decode(response.data.accessToken);
-  //     setEmail(decoded.email);
-  //     setExpire(decoded.exp);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  const register = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append("email", email);
-    formData.append("no_hp", noHp);
-    formData.append("password", password);
-
-    try {
-      const response = await fetch(defaultImage);
-      const blob = await response.blob();
-
-      formData.append("file", blob, "default.png");
-
-      await axios.post("http://localhost:5000/register", formData, {
-        headers: {
-          "Content-type": "multipart/form-data",
-        },
-      });
-      setEmail("");
-      setNoHp("");
-      setPassword("");
-      navigate("/");
-      handleCloseSignUp();
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const login = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.post("http://localhost:5000/login", {
-        email,
-        password,
-      });
-      console.log("ini response login", response.data.accessToken);
-      const decoded = jwt_decode(response.data.accessToken);
-      setEmail(decoded.email);
-      setExpire(decoded.exp);
-
-      setIsLogin(true);
-      navigate("/");
-      handleCloseSignIn();
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-
-  const logout = async (e) => {
-    e.preventDefault();
-
-    try {
-      axios.delete("http://localhost:5000/logout");
-
-      setEmail("");
-      setNoHp("");
-      setPassword("");
-      setIsLogin(false);
-
-      navigate("/");
-      handleCloseSignIn();
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleShowSignIn = () => {
-    setShowSignUp(false);
-    setShowSignIn(true);
-  };
-
-  const handleCloseSignIn = () => {
-    setShowSignIn(false);
-  };
-
-  const handleShowSignUp = () => {
-    setShowSignIn(false);
-    setShowSignUp(true);
-  };
-
-  const handleCloseSignUp = () => {
-    setShowSignUp(false);
-  };
-
-  const handleShowProfile = () => {
-    setShowProfile(true);
-  };
-
-  const handleCloseProfile = () => {
-    setShowProfile(false);
-  };
-
+  //   console.log(isLogin);
+  // }, []);
   return (
     <div>
       <Navbar>
@@ -152,10 +46,16 @@ const NavigationBar = () => {
         </Container>
         {isLogin && (
           <Container className="d-flex justify-content-center">
-            <div>hello {email && email}</div>
-            <Button variant="danger" size="sm" className="ms-3 signup" onClick={logout}>
-              Logout
-            </Button>{" "}
+            <div>{email && email}</div>
+            {notHome ? (
+              <Button variant="danger" size="sm" className="ms-3 signup" onClick={logout} style={{ display: "none" }}>
+                Logout
+              </Button>
+            ) : (
+              <Button variant="danger" size="sm" className="ms-3 signup" onClick={logout}>
+                Logout
+              </Button>
+            )}
           </Container>
         )}
 

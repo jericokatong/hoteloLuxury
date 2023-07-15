@@ -1,9 +1,6 @@
-import PesanKamar1 from '../components/PesanKamar1'
-const PesanKamar = () => {
-    return(
-        <PesanKamar1/>
+import PesanKamar1 from "../components/PesanKamar1";
+const PesanKamar = ({ email, isLogin }) => {
+  return <PesanKamar1 email={email} isLogin={isLogin} />;
+};
 
-    )
-}
-
-export default PesanKamar
+export default PesanKamar;
