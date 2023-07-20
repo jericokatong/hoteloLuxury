@@ -34,8 +34,10 @@ const JenisKamar = ({
   handleCloseSignUp,
   handleShowProfile,
   handleCloseProfile,
+  pelanggan_id,
 }) => {
-  const titles = ["STANDARD ROOM", "SUPERIOR ROOM", "DELUXE ROOM"];
+  const titles = ["Standard Room", "Superior Room", "Deluxe Room"];
+  const price = [200000, 250000, 320000];
   const cardText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
 
   return (
@@ -52,7 +54,21 @@ const JenisKamar = ({
                 </Card.Text>
                 {isLogin && (
                   <div className="d-flex justify-content-center mb-2 mt-2">
-                    <Button onClick={() => navigate("/pesankamar")} variant="warning" size="sm" className="ms-2 booknow">
+                    <Button
+                      onClick={() =>
+                        navigate("/pesankamar", {
+                          state: {
+                            subtitle: titles[index],
+                            price: price[index],
+                            idKamar: index + 2,
+                            pelanggan_id,
+                          },
+                        })
+                      }
+                      variant="warning"
+                      size="sm"
+                      className="ms-2 booknow"
+                    >
                       Book Sekarang
                     </Button>{" "}
                   </div>

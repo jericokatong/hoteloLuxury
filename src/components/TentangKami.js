@@ -36,6 +36,7 @@ const TentangKami = ({
   handleCloseSignUp,
   handleShowProfile,
   handleCloseProfile,
+  pelanggan_id,
 }) => {
   return (
     <div>
@@ -122,6 +123,7 @@ const TentangKami = ({
                 handleCloseSignUp={handleCloseSignUp}
                 handleShowProfile={handleShowProfile}
                 handleCloseProfile={handleCloseProfile}
+                pelanggan_id={pelanggan_id}
               />
             </div>
             <div className="text-center mt-5">

@@ -9,7 +9,7 @@ import jwt_decode from "jwt-decode";
 import defaultImage from "../assets/img/avatar.png";
 import "../styles/style.css";
 
-const Home = ({ email, setEmail, noHp, setNoHp, password, setPassword, isLogin, setIsLogin }) => {
+const Home = ({ email, setEmail, noHp, setNoHp, password, setPassword, isLogin, setIsLogin, pelanggan_id, set_pelanggan_id, aksesToken, setAksesToken }) => {
   const [showSignIn, setShowSignIn] = useState(false);
   const [showSignUp, setShowSignUp] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
@@ -84,6 +84,8 @@ const Home = ({ email, setEmail, noHp, setNoHp, password, setPassword, isLogin, 
   const handleShowSignIn = () => {
     setShowSignUp(false);
     setShowSignIn(true);
+    setEmail("");
+    setPassword("");
   };
 
   const handleCloseSignIn = () => {
@@ -93,10 +95,14 @@ const Home = ({ email, setEmail, noHp, setNoHp, password, setPassword, isLogin, 
   const handleShowSignUp = () => {
     setShowSignIn(false);
     setShowSignUp(true);
+    setEmail("");
+    setPassword("");
   };
 
   const handleCloseSignUp = () => {
     setShowSignUp(false);
+    setEmail("");
+    setPassword("");
   };
 
   const handleShowProfile = () => {
@@ -160,6 +166,7 @@ const Home = ({ email, setEmail, noHp, setNoHp, password, setPassword, isLogin, 
           handleCloseSignUp={handleCloseSignUp}
           handleShowProfile={handleShowProfile}
           handleCloseProfile={handleCloseProfile}
+          pelanggan_id={pelanggan_id}
         />
       </div>
     </div>

@@ -26,10 +26,8 @@ const NavigationBar = ({
   handleShowProfile,
   handleCloseProfile,
   notHome,
+  urlGambar,
 }) => {
-  // useEffect(() => {
-  //   console.log(isLogin);
-  // }, []);
   return (
     <div>
       <Navbar>
@@ -42,7 +40,7 @@ const NavigationBar = ({
           <NavLink href="/">Beranda</NavLink>
           <NavLink href="#tentangkami">Tentang Kami</NavLink>
           <NavLink href="#reservasi">Reservasi</NavLink>
-          <NavLink onClick={handleShowProfile}>Akun Saya</NavLink>
+          <NavLink onClick={handleShowProfile}>Akun Saya jerico</NavLink>
         </Container>
         {isLogin && (
           <Container className="d-flex justify-content-center">
@@ -171,7 +169,7 @@ const NavigationBar = ({
       </Modal>
       <Modal show={showProfile} onHide={handleCloseProfile} size="lg" centered>
         <Modal.Header closeButton>
-          <Modal.Title>Biodata Pengguna</Modal.Title>
+          <Modal.Title>Biodata Pengguna jerico</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div className="p-4" style={{ backgroundColor: "#FBEEA8", borderRadius: "10px" }}>
@@ -180,12 +178,12 @@ const NavigationBar = ({
               <input type="text" className="form-control" id="nama" placeholder="Masukkan Nama" style={{ borderColor: "#B27B0E", backgroundColor: "#FBEEA8" }} />
             </div>
             <div className="mb-3">
-              <label htmlFor="nohp">No HP</label>
-              <input type="text" className="form-control" id="nohp" placeholder="Masukkan No HP" style={{ borderColor: "#B27B0E", backgroundColor: "#FBEEA8" }} />
-            </div>
-            <div className="mb-3">
               <label htmlFor="email">Email</label>
               <input type="email" className="form-control" id="email" placeholder="Masukkan Email" style={{ borderColor: "#B27B0E", backgroundColor: "#FBEEA8" }} />
+            </div>
+            <div className="mb-3">
+              <label htmlFor="nohp">No HP</label>
+              <input type="text" className="form-control" id="nohp" placeholder="Masukkan No HP" style={{ borderColor: "#B27B0E", backgroundColor: "#FBEEA8" }} />
             </div>
             <div className="mb-3">
               <label htmlFor="profil">Edit Foto Profil</label>
