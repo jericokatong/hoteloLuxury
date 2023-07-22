@@ -21,7 +21,7 @@ function App() {
   const [pelanggan_id, set_pelanggan_id] = useState(null);
   const [hasil, setHasil] = useState(null);
 
-  const [urlGambar, setUrlGambar] = useState(null);
+  const [urlGambar, setUrlGambar] = useState("");
   const [email, setEmail] = useState("");
   const [noHp, setNoHp] = useState("");
   const [password, setPassword] = useState("");
@@ -36,9 +36,15 @@ function App() {
     if (hasil) {
       set_pelanggan_id(hasil.data.pelanggan_id);
       setUrlGambar(hasil.data.url_image_pelanggan);
+      setNoHp(hasil.data.no_hp);
+      console.log(noHp);
       console.log("ini e id pelanggan", pelanggan_id);
     }
-  }, [hasil]);
+  }, [hasil, isLogin]);
+
+  useEffect(() => {
+    refreshToken();
+  }, [isLogin]);
 
   const refreshToken = async () => {
     try {
@@ -110,6 +116,7 @@ function App() {
               aksesToken={aksesToken}
               setAksesToken={setAksesToken}
               urlGambar={urlGambar}
+              refreshToken={refreshToken}
             />
           }
         />
