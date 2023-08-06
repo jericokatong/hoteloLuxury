@@ -1,6 +1,8 @@
 const Reservasi = require("./model.js");
 const Pelanggan = require("../Pelanggan/model.js");
 const Kamar = require("../Kamar/model.js");
+const Admin = require("../Admin/model.js");
+const History_Reservasi = require("../History_Reservasi/model.js");
 
 const createReservasi = async (req, res, next) => {
   try {
@@ -42,7 +44,7 @@ const createReservasi = async (req, res, next) => {
 
     res.status(200).json({ msg: "berhasil membuat reservasi" });
   } catch (error) {
-    console.log(error.message);
+    res.status(404).json({ msg: error.message });
   }
 };
 
@@ -61,7 +63,7 @@ const getAllInformasiReservasi = async (req, res, next) => {
 
     res.status(200).json(response);
   } catch (error) {
-    console.log(error);
+    res.json({ msg: error.message });
   }
 };
 
@@ -82,8 +84,59 @@ const getInformasiReservasiByUser = async (req, res, next) => {
 
     res.status(200).json(response);
   } catch (error) {
+    res.json({ msg: error.message });
+  }
+};
+
+const konfirmasiReservasi = async (req, res) => {
+  try {
+    const DataAdmin = await Admin.findOne({
+      where: {
+        email: req.email,
+      },
+    });
+
+    if (!DataAdmin) return res.status(404).json({ msg: "Email tidak ditemukan, tolong login lagi" });
+
+    // const reservasi_id = req.body.reservasi_id;
+    // const status_pemesanan = req.body.status_pemesanan;
+
+    await Reservasi.update(
+      {
+        status_pemesanan: "confirm",
+      },
+      {
+        where: {
+          reservasi_id: req.params.reservasi_id,
+        },
+      }
+    );
+  } catch (error) {
+    // res.status(400).json({ msg: error.message });
     console.log(error);
   }
 };
 
-module.exports = { createReservasi, getAllInformasiReservasi, getInformasiReservasiByUser };
+const hapusReservasi = async (req, res) => {
+  try {
+    const reservasi_id = req.params.reservasi_id;
+
+    await Reservasi.destroy({
+      where: {
+        reservasi_id,
+      },
+    });
+
+    // await History_Reservasi.destroy({
+    //   where: {
+    //     reservasi_id,
+    //   },
+    // });
+
+    res.status(200).json({ msg: "Berhasil Hapus Data Reservasi" });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+module.exports = { createReservasi, getAllInformasiReservasi, getInformasiReservasiByUser, konfirmasiReservasi, hapusReservasi };
