@@ -1,19 +1,19 @@
 var express = require("express");
 var router = express.Router();
 const multer = require("multer");
-const upload = multer({ dest: "public/images/" });
+const upload = multer({ storage: multer.memoryStorage() });
 
-const { getPelanggan, RegisterPelanggan, LoginPelanggan, token, Logout, editPelanggan, deletePelanggan, getPelangganByEmail } = require("./controller");
+const { getPelanggan, RegisterPelanggan, Login, token, Logout, editPelanggan, deletePelanggan, getPelangganByEmail } = require("./controller");
 const VerifyToken = require("../../middleware/VerifyToken.js");
 
 /* GET home page. */
-router.get("/pelanggan", VerifyToken, getPelanggan);
-router.get("/pelanggan/:email", VerifyToken, getPelangganByEmail);
+router.get("/pelanggan", getPelanggan);
+router.get("/pelanggan/:email", getPelangganByEmail);
 router.post("/register", upload.single("file"), RegisterPelanggan);
-router.post("/login", LoginPelanggan);
+router.post("/login", Login);
 router.get("/token", token);
 router.delete("/logout", Logout);
-router.patch("/pelanggan", VerifyToken, upload.single("file"), editPelanggan);
+router.patch("/pelanggan/:email", VerifyToken, upload.single("file"), editPelanggan);
 router.delete("/pelanggan/:pelanggan_id", deletePelanggan);
 
 module.exports = router;

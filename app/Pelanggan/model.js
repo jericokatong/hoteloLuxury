@@ -25,6 +25,9 @@ const Pelanggan = db.define(
     image_pelanggan: {
       type: DataTypes.STRING,
     },
+    path_image_pelanggan: {
+      type: DataTypes.STRING,
+    },
     url_image_pelanggan: {
       type: DataTypes.STRING,
     },

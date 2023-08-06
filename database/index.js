@@ -1,8 +1,10 @@
 const { Sequelize } = require("sequelize");
+const { dbName, dbUsername, dbPassword, dbHostname } = require("../config/index.js");
 
 // Option 3: Passing parameters separately (other dialects)
-const db = new Sequelize("hotel_luxury", "root", "", {
-  host: "localhost",
+const db = new Sequelize(dbName, dbUsername, dbPassword, {
+  host: dbHostname,
+  // port: 3307,
   dialect: "mysql",
 });
 

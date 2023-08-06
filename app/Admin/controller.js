@@ -12,7 +12,7 @@ const getAdmin = async (req, res, next) => {
 
     res.status(200).json(response);
   } catch (error) {
-    console.log(error);
+    res.json({ msg: error.message });
   }
 };
 
@@ -43,7 +43,7 @@ const registerAdmin = async (req, res, next) => {
 
     if (!hashingPassword) res.status(400).json({ msg: "tidak dapat melakukan hashing" });
 
-    if (req.file === null) return res.status(400).json({ msg: "No File Uploaded" });
+    if (req.file === undefined) return res.status(400).json({ msg: "No File Uploaded" });
 
     const file = req.file;
     const fileSize = file.size;
@@ -68,54 +68,38 @@ const registerAdmin = async (req, res, next) => {
 
     res.status(200).json({ msg: "Berhasil melakukan registrasi" });
   } catch (error) {
-    console.log(error);
+    res.json({ msg: error.message });
   }
 };
 
-const LoginAdmin = async (req, res, next) => {
+// const LoginAdmin = async (req, res, next) => {};
+
+const tokenAdmin = async (req, res) => {
+  const refreshToken = req.cookies.refreshToken;
+
+  if (!refreshToken) return res.json({ msg: "tidak ada refresh token pada cookies" });
+
+  const admin = await Admin.findOne({
+    where: {
+      refreshToken,
+    },
+  });
+
+  if (!admin) return res.json({ msg: "refresh token yang dikirimi tidak cocok" });
+
   try {
-    const { email, password } = req.body;
+    const decoded = jwt.verify(refreshToken, refreshTokenSecret);
 
-    const admin = await Admin.findOne({
-      where: {
-        email,
-      },
-    });
+    if (!decoded) return res.json({ msg: "refresh token anda tidak valid" });
 
-    if (!admin) res.status(400).json({ msg: "email tidak ditemukan" });
+    const admin_id = decoded.admin_id;
+    const email = decoded.email;
 
-    const match = await bcrypt.compare(password, admin.password);
+    const accessToken = jwt.sign({ admin_id, email }, accessTokenSecret, { expiresIn: "30s" });
 
-    if (!match) return res.status(400).json({ msg: "maaf password anda tidak cocok" });
-
-    const adminId = admin.admin_id;
-    const adminEmail = admin.email;
-
-    const accessToken = jwt.sign({ admin_id: adminId, email: adminEmail }, accessTokenSecret, {
-      expiresIn: "30s",
-    });
-
-    const refreshToken = jwt.sign({ admin_id: adminId, email: adminEmail }, refreshTokenSecret, {
-      expiresIn: "1d",
-    });
-
-    await Admin.update(
-      { refreshToken: refreshToken },
-      {
-        where: {
-          admin_id: adminId,
-        },
-      }
-    );
-
-    res.cookie("refreshToken", refreshToken, {
-      httpOnly: true,
-      maxAge: 24 * 60 * 60 * 1000,
-    });
-
-    res.status(200).json({ accessToken });
+    res.json({ accessToken });
   } catch (error) {
-    console.log(error.message);
+    res.status(400).json({ msg: error.message });
   }
 };
 
@@ -145,8 +129,8 @@ const LogoutAdmin = async (req, res, next) => {
     res.clearCookie("refreshToken");
     return res.status(200).json({ msg: "Berhasil melakukan logout" });
   } catch (error) {
-    console.log(error);
+    res.json({ msg: error.message });
   }
 };
 
-module.exports = { getAdmin, registerAdmin, LoginAdmin, LogoutAdmin };
+module.exports = { getAdmin, registerAdmin, tokenAdmin, LogoutAdmin };

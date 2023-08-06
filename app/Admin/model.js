@@ -5,7 +5,8 @@ const Admin = db.define(
   "admin",
   {
     admin_id: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
+      allowNull: false,
       primaryKey: true,
       autoIncrement: true,
     },
@@ -22,7 +23,7 @@ const Admin = db.define(
       allowNull: false,
     },
     url_image_admin: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false,
     },
     refreshToken: {
