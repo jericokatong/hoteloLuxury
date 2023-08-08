@@ -4,8 +4,15 @@ import "./App.css";
 import Home from "./pages/Home";
 import PesanKamar from "./pages/PesanKamar";
 import AdminDashboard from "./pages/AdminDashboard";
-import Kamar from "./pages/AdminKamar";
-import Pengguna from "./pages/AdminPengguna";
+
+import AdminKamar from "./pages/AdminKamar";
+import AdminEditKamar from "./pages/AdminEditKamar";
+import AdminTambahKamar from "./pages/AdminTambahKamar";
+
+import Pengguna from "./pages/Pengguna";
+import AdminPengguna from "./pages/AdminPengguna";
+import AdminEditPengguna from "./pages/AdminEditPengguna";
+
 import Terkonfirmasi from "./pages/AdminTerkonfirmasi";
 import Pending from "./pages/AdminPending";
 import Baru from "./pages/AdminBaru";
@@ -13,6 +20,7 @@ import KonfirmasiPemesanan from "./components/KonfirmasiPemesanan";
 
 import axios from "axios";
 import jwt_decode from "jwt-decode";
+import AdminTambahPengguna from "./pages/AdminTambahPengguna";
 
 axios.defaults.headers.common["Authorization"] = ``;
 
@@ -20,6 +28,7 @@ function App() {
   const [aksesToken, setAksesToken] = useState("");
   const [pelanggan_id, set_pelanggan_id] = useState(null);
   const [hasil, setHasil] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const [urlGambar, setUrlGambar] = useState("");
   const [email, setEmail] = useState("");
@@ -48,45 +57,61 @@ function App() {
 
   const refreshToken = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/token");
+      const response = await axios.get("http://app-7f71eebb-31d0-4c49-8cb0-d3bd849a9587.cleverapps.io/token");
 
-      setAksesToken(response.data.accessToken);
-      console.log("ini token eee", response.data.accessToken);
-      const decoded = jwt_decode(response.data.accessToken);
+      console.log("INI RESPONSE TOKEN", response);
 
-      setEmail(decoded.email);
+      if (!response.data.accessToken) {
+        const response = await axios.get("http://app-7f71eebb-31d0-4c49-8cb0-d3bd849a9587.cleverapps.io/tokenadmin");
 
-      try {
-        console.log("ini dibawa", response.data.accessToken);
+        setAksesToken(response.data.accessToken);
+        console.log("ini token eee", response.data.accessToken);
+        const decoded = jwt_decode(response.data.accessToken);
 
-        const hasil = await axios.get(`http://localhost:5000/pelanggan/${jwt_decode(response.data.accessToken).email}`, {
-          headers: {
-            Authorization: `Bearer ${response.data.accessToken}`,
-          },
-        });
-        console.log("iniiiiiiiii hasil", hasil.data);
-        setHasil(hasil.data);
-      } catch (error) {
-        console.log("ini error pelanggan", error);
-      }
+        setEmail(decoded.email);
+        console.log("ININ aada ator setIsAdmin");
+        setIsAdmin(true);
+        console.log(isAdmin);
+      } else {
+        setAksesToken(response.data.accessToken);
+        console.log("ini token eee", response.data.accessToken);
+        const decoded = jwt_decode(response.data.accessToken);
 
-      if (decoded.exp) {
-        const currentTime = Math.floor(Date.now() / 1000);
-        const expirationTime = decoded.exp;
+        setEmail(decoded.email);
 
-        if (expirationTime > currentTime) {
-          setIsLogin(true);
-        } else {
-          try {
-            const result = await axios.get("http://localhost:5000/token");
-            const newDecoded = jwt_decode(result.data.accessToken);
-            setAksesToken(result.data.accessToken);
+        try {
+          console.log("ini dibawa", response.data.accessToken);
 
-            setEmail(newDecoded.email);
+          const hasil = await axios.get(`http://app-7f71eebb-31d0-4c49-8cb0-d3bd849a9587.cleverapps.io/pelanggan/${jwt_decode(response.data.accessToken).email}`, {
+            headers: {
+              Authorization: `Bearer ${response.data.accessToken}`,
+            },
+          });
+          console.log("INI EMAIL HA!", decoded);
+          console.log("iniiiiiiiii hasil malma ijo", hasil.data);
+          setHasil(hasil.data);
+        } catch (error) {
+          console.log("ini error pelanggan", error);
+        }
+
+        if (decoded.exp) {
+          const currentTime = Math.floor(Date.now() / 1000);
+          const expirationTime = decoded.exp;
+
+          if (expirationTime > currentTime) {
             setIsLogin(true);
-          } catch (error) {
-            console.log(error);
-            setIsLogin(false);
+          } else {
+            try {
+              const result = await axios.get("http://app-7f71eebb-31d0-4c49-8cb0-d3bd849a9587.cleverapps.io/token");
+              const newDecoded = jwt_decode(result.data.accessToken);
+              setAksesToken(result.data.accessToken);
+
+              setEmail(newDecoded.email);
+              setIsLogin(true);
+            } catch (error) {
+              console.log(error);
+              setIsLogin(false);
+            }
           }
         }
       }
@@ -117,6 +142,7 @@ function App() {
               setAksesToken={setAksesToken}
               urlGambar={urlGambar}
               refreshToken={refreshToken}
+              isAdmin={isAdmin}
             />
           }
         />
@@ -124,10 +150,17 @@ function App() {
 
         <Route path="/konfirmasipemesanan" element={<KonfirmasiPemesanan email={email} isLogin={isLogin} notHome={notHome} setAksesToken={setAksesToken} />} />
 
-        <Route path="/admin" element={<AdminDashboard />} />
-        <Route path="/admin/kamar" element={<Kamar />} />
-        <Route path="/admin/pengguna" element={<Pengguna />} />
-        <Route path="/admin/konfirmasi" element={<Terkonfirmasi />} />
+        <Route path="/admin" element={<AdminDashboard email={email} setEmail={setEmail} setNoHp={setNoHp} setPassword={setPassword} setIsLogin={setIsLogin} setIsAdmin={setIsAdmin} />} />
+
+        <Route path="/admin/kamar" element={<AdminKamar email={email} setEmail={setEmail} setNoHp={setNoHp} setPassword={setPassword} setIsLogin={setIsLogin} setIsAdmin={setIsAdmin} />} />
+        <Route path="/admin/kamar/edit" element={<AdminEditKamar />} />
+        <Route path="/admin/kamar/tambah" element={<AdminTambahKamar />} />
+
+        <Route path="/admin/pengguna" element={<AdminPengguna email={email} setEmail={setEmail} setNoHp={setNoHp} setPassword={setPassword} setIsLogin={setIsLogin} setIsAdmin={setIsAdmin} />} />
+        <Route path="/admin/pengguna/edit" element={<AdminEditPengguna />} />
+        <Route path="/admin/pengguna/tambah" element={<AdminTambahPengguna />} />
+
+        <Route path="/admin/konfirmasi" element={<Terkonfirmasi email={email} setEmail={setEmail} setNoHp={setNoHp} setPassword={setPassword} setIsLogin={setIsLogin} setIsAdmin={setIsAdmin} />} />
         <Route path="/admin/pending" element={<Pending />} />
         <Route path="/admin/baru" element={<Baru />} />
       </Routes>

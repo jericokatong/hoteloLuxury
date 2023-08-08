@@ -33,7 +33,7 @@ const ModalComponents = ({
   const editProfile = async (e) => {
     e.preventDefault();
     try {
-      const hasilToken = await axios.get("http://localhost:5000/token");
+      const hasilToken = await axios.get("http://app-7f71eebb-31d0-4c49-8cb0-d3bd849a9587.cleverapps.io/token");
 
       const inputGambar = document.getElementById("profil");
 
@@ -45,7 +45,7 @@ const ModalComponents = ({
       formData.append("no_hp", noHp);
       formData.append("file", fileGambar);
 
-      const hasil = await axios.patch(`http://localhost:5000/pelanggan`, formData, {
+      const hasil = await axios.patch(`http://app-7f71eebb-31d0-4c49-8cb0-d3bd849a9587.cleverapps.io/pelanggan/${email}`, formData, {
         headers: {
           Authorization: `Bearer ${hasilToken.data.accessToken}`,
           "Content-Type": "multipart/form-data",
@@ -178,7 +178,7 @@ const ModalComponents = ({
               </div>
               <div className="mb-3">
                 <label htmlFor="profil">Edit Foto Profil</label>
-                <input type="file" className="form-control" id="profil" style={{ borderColor: "#B27B0E", backgroundColor: "#FBEEA8" }} />
+                <input type="file" className="form-control" id="profil" style={{ borderColor: "#B27B0E", backgroundColor: "#FBEEA8" }} onChange={() => "aa"} />
               </div>
               <Button variant="warning" type="submit">
                 Simpan

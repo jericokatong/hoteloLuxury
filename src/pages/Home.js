@@ -9,11 +9,18 @@ import jwt_decode from "jwt-decode";
 import defaultImage from "../assets/img/avatar.png";
 import "../styles/style.css";
 
-const Home = ({ email, setEmail, noHp, setNoHp, password, setPassword, isLogin, setIsLogin, pelanggan_id, set_pelanggan_id, aksesToken, setAksesToken, urlGambar, refreshToken }) => {
+const Home = ({ email, setEmail, noHp, setNoHp, password, setPassword, isLogin, setIsLogin, pelanggan_id, set_pelanggan_id, aksesToken, setAksesToken, urlGambar, refreshToken, isAdmin }) => {
   const [showSignIn, setShowSignIn] = useState(false);
   const [showSignUp, setShowSignUp] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log("ini isAdmin", isAdmin);
+    if (isAdmin) {
+      navigate("/admin");
+    }
+  }, [isAdmin]);
 
   const register = async (e) => {
     e.preventDefault();
@@ -28,7 +35,7 @@ const Home = ({ email, setEmail, noHp, setNoHp, password, setPassword, isLogin, 
 
       formData.append("file", blob, "default.png");
 
-      await axios.post("http://localhost:5000/register", formData, {
+      await axios.post("http://app-7f71eebb-31d0-4c49-8cb0-d3bd849a9587.cleverapps.io/register", formData, {
         headers: {
           "Content-type": "multipart/form-data",
         },
@@ -46,18 +53,25 @@ const Home = ({ email, setEmail, noHp, setNoHp, password, setPassword, isLogin, 
   const login = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:5000/login", {
+      const response = await axios.post("http://app-7f71eebb-31d0-4c49-8cb0-d3bd849a9587.cleverapps.io/login", {
         email,
         password,
       });
 
-      console.log("ini response login", response.data.accessToken);
-      const decoded = jwt_decode(response.data.accessToken);
-      setEmail(decoded.email);
-
-      setIsLogin(true);
-      navigate("/");
-      handleCloseSignIn();
+      if (response.data.isAdmin) {
+        console.log("ini response login", response.data.accessToken);
+        const decoded = jwt_decode(response.data.accessToken);
+        setEmail(decoded.email);
+        setIsLogin(true);
+        navigate("/admin");
+      } else if (response.data.isPelanggan) {
+        console.log("ini response login", response.data.accessToken);
+        const decoded = jwt_decode(response.data.accessToken);
+        setEmail(decoded.email);
+        setIsLogin(true);
+        navigate("/");
+        handleCloseSignIn();
+      }
     } catch (error) {
       console.log(error.response.data.msg);
     }
@@ -67,7 +81,7 @@ const Home = ({ email, setEmail, noHp, setNoHp, password, setPassword, isLogin, 
     e.preventDefault();
 
     try {
-      axios.delete("http://localhost:5000/logout");
+      axios.delete("http://app-7f71eebb-31d0-4c49-8cb0-d3bd849a9587.cleverapps.io/logout");
 
       setEmail("");
       setNoHp("");

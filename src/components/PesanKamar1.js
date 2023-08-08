@@ -55,13 +55,13 @@ const PesanKamar1 = ({ email, isLogin, subtitle, price, idKamar, notHome, aksesT
     e.preventDefault();
 
     try {
-      const hasilToken = await axios.get("http://localhost:5000/token");
+      const hasilToken = await axios.get("http://app-7f71eebb-31d0-4c49-8cb0-d3bd849a9587.cleverapps.io/token");
 
       setAksesToken(hasilToken.data.accessToken);
       // set_total_biaya(jumlah_kamar * price);
 
       const hasil = await axios.post(
-        `http://localhost:5000/reservasi/${idKamar}`,
+        `http://app-7f71eebb-31d0-4c49-8cb0-d3bd849a9587.cleverapps.io/reservasi/${idKamar}`,
         {
           pelanggan_id,
           kamar_id: idKamar,
@@ -126,7 +126,7 @@ const PesanKamar1 = ({ email, isLogin, subtitle, price, idKamar, notHome, aksesT
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
                     consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
                   </Card.Text>
-                  <Card.Text>Harga: Rp. {price} / malam</Card.Text>
+                  <Card.Text>Harga: Rp. {price.toLocaleString("id-ID")} / malam</Card.Text>
                 </Col>
               </Row>
             )}

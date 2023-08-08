@@ -29,11 +29,11 @@ const KonfirmasiPemesanan = ({ email, isLogin, notHome, setAksesToken }) => {
 
   const setData = async () => {
     try {
-      const hasilToken = await axios.get("http://localhost:5000/token");
+      const hasilToken = await axios.get("http://app-7f71eebb-31d0-4c49-8cb0-d3bd849a9587.cleverapps.io/token");
 
       // setAksesToken(hasilToken.data.accessToken);
 
-      const response = await axios.get(`http://localhost:5000/reservasi/${pelanggan_id}`, {
+      const response = await axios.get(`http://app-7f71eebb-31d0-4c49-8cb0-d3bd849a9587.cleverapps.io/reservasi/${pelanggan_id}`, {
         headers: {
           Authorization: `Bearer ${hasilToken.data.accessToken}`,
         },
@@ -142,9 +142,10 @@ const KonfirmasiPemesanan = ({ email, isLogin, notHome, setAksesToken }) => {
           </Card>
         </div>
         <Container className="d-flex justify-content-end ms-2 ps-5 pt-4">
-          <Button variant="warning" className="kembalikeberanda">
+          {/* <Button variant="warning" className="kembalikeberanda">
             Kembali ke Beranda
-          </Button>
+          </Button> */}
+          <a href="http://localhost:3000/">Kembali ke Beranda</a>
         </Container>
       </div>
     </div>

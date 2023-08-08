@@ -1,12 +1,12 @@
 import NavigationAdmin from "../components/NavigationAdmin";
-import EditKamar from "./EditKamar";
+import EditPengguna from "./EditPengguna";
 import { useLocation } from "react-router-dom";
 
 import "../styles/style.css";
 
-const AdminEditKamar = () => {
+const AdminEditPengguna = () => {
   const location = useLocation();
-  const { kamar_id } = location.state;
+  const { pelanggan_email } = location.state;
 
   return (
     <div className="d-flex bg">
@@ -14,10 +14,10 @@ const AdminEditKamar = () => {
         <NavigationAdmin />
       </div>
       <div>
-        <EditKamar kamar_id={kamar_id} />
+        <EditPengguna pelanggan_email={pelanggan_email} />
       </div>
     </div>
   );
 };
 
-export default AdminEditKamar;
+export default AdminEditPengguna;

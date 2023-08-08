@@ -1,54 +1,94 @@
-import React from 'react';
-import { Button, Form } from 'react-bootstrap';
-import '../styles/pengguna.css';
+import React, { useEffect, useState } from "react";
+import { Button, Table, Card } from "react-bootstrap";
+import "../styles/kamar.css";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Pengguna = () => {
+  const [dataPengguna, setDataPengguna] = useState(null);
+  const [responseDataPengguna, setResponseDataPengguna] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    ambilDataPengguna();
+  }, []);
+
+  useEffect(() => {
+    if (responseDataPengguna) {
+      setDataPengguna(responseDataPengguna.data);
+      console.log("INI DATA PENGGUNA ahaah", dataPengguna);
+    }
+  }, [responseDataPengguna]);
+
+  const ambilDataPengguna = async () => {
+    try {
+      const response = await axios.get("http://app-7f71eebb-31d0-4c49-8cb0-d3bd849a9587.cleverapps.io/pelanggan");
+      setResponseDataPengguna(response.data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const deletePengguna = async (pelanggan_id) => {
+    try {
+      await axios.delete(`http://app-7f71eebb-31d0-4c49-8cb0-d3bd849a9587.cleverapps.io/pelanggan/${pelanggan_id}`);
+      ambilDataPengguna();
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   return (
-    <div className='dash'>
+    <div className="dash">
       <header className="headerStyle">
-        <h6 className='ms-4 mt-2'>Edit Data Pengguna</h6>
+        <h6 className="ms-4 mt-2">Data Pengguna</h6>
+        <Button variant="warning" size="sm" className="ms-auto me-5 add" onClick={() => navigate("/admin/pengguna/tambah")}>
+          Tambah Data
+        </Button>{" "}
       </header>
-      <div className="formContainer">
-        <Form>
-          <Form.Group controlId="fullName" className="form-group-inline mt-5">
-            <Form.Label>Nama lengkap:</Form.Label>
-            <Form.Control type="text" className="form-control-width custom-input" />
-          </Form.Group>
-          <Form.Group controlId="email" className="form-group-inline mt-3">
-            <Form.Label>Email:</Form.Label>
-            <Form.Control type="email" className="form-control-width custom-input" />
-          </Form.Group>
-          <Form.Group controlId="phoneNumber" className="form-group-inline mt-3">
-            <Form.Label>No Hp:</Form.Label>
-            <Form.Control type="tel" className="form-control-width custom-input" />
-          </Form.Group>
-          <div className="form-group-row">
-            <Form.Group controlId="roomType" className="form-group-inline mt-3">
-              <Form.Label>Jenis Kamar:</Form.Label>
-              <Form.Control as="select" className="form-control-medium1-width custom-input">
-                <option>Standard Room</option>
-                <option>Superior Room</option>
-                <option>Deluxe Room</option>
-              </Form.Control>
-            </Form.Group>
-            <Form.Group controlId="numberOfRooms" className="form-group-kanan mt-3">
-              <Form.Label className='tm2'>Jumlah Kamar:</Form.Label>
-              <Form.Control type="number" className="form-control-medium2-width custom-input" />
-            </Form.Group>
-          </div>
-          <div className="form-group-row">
-            <Form.Group controlId="checkInDate" className="form-group-inline mt-3">
-              <Form.Label>Check-in:</Form.Label>
-              <Form.Control type="date" className="form-control-small1-width custom-input" />
-            </Form.Group>
-            <Form.Group controlId="checkOutDate" className="form-group-kanan mt-3">
-              <Form.Label className='ts2'>Check-out:</Form.Label>
-              <Form.Control type="date" className="form-control-small2-width custom-input" />
-            </Form.Group>
-          </div>
-          <Button type="submit" variant="warning" className="custom-button mb-5 mt-3">Simpan</Button>
-        </Form>
-      </div>
+      <Table striped bordered hover className="tabel">
+        <thead className="head">
+          <tr>
+            <th>No</th>
+            <th>Gambar</th>
+            <th>Email</th>
+            <th>No Hp</th>
+            <th>Opsi</th>
+          </tr>
+        </thead>
+        <tbody>
+          {dataPengguna &&
+            dataPengguna.map((item, index) => (
+              <tr key={item.pelanggan_id}>
+                <td className="no">{index + 1}</td>
+                <td className="body" style={{ textAlign: "center" }}>
+                  <img src={item.url_image_pelanggan} alt="" width="100px" />
+                </td>
+                <td className="body">{item.email}</td>
+                <td className="body">{item.no_hp}</td>
+                <td className="body">
+                  <Button
+                    variant="warning"
+                    className="edit"
+                    size="sm"
+                    onClick={() =>
+                      navigate("/admin/pengguna/edit", {
+                        state: {
+                          pelanggan_email: item.email,
+                        },
+                      })
+                    }
+                  >
+                    Edit
+                  </Button>{" "}
+                  <Button variant="warning" size="sm" className="ms-3 delete" onClick={() => deletePengguna(item.pelanggan_id)}>
+                    Delete
+                  </Button>{" "}
+                </td>
+              </tr>
+            ))}
+        </tbody>
+      </Table>
     </div>
   );
 };
