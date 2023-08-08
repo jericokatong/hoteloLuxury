@@ -1,20 +1,19 @@
+import NavigationAdmin from "../components/NavigationAdmin";
+import Kamar from "./Kamar";
 
-import NavigationAdmin from '../components/NavigationAdmin';
-import Kamar from './Kamar';
+import "../styles/style.css";
 
-import '../styles/style.css';
-
-const AdminKamar = () => {
+const AdminKamar = ({ email, setEmail, setNoHp, setPassword, setIsLogin, setIsAdmin }) => {
   return (
-    <div className='d-flex bg'>
+    <div className="d-flex bg">
       <div>
-        <NavigationAdmin/>
+        <NavigationAdmin email={email} setEmail={setEmail} setNoHp={setNoHp} setPassword={setPassword} setIsLogin={setIsLogin} setIsAdmin={setIsAdmin} />
       </div>
       <div>
-        <Kamar/>
+        <Kamar />
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default AdminKamar;
